@@ -82,36 +82,9 @@ else
 		"username": "'"$CREDITS"'",
 		"avatar_url": "https://gitlab.com/favicon.png",
 		"embeds": [ {
-			"color": '$EMBED_COLOR',
-			"author": {
-			"name": "Pipeline #'"$CI_PIPELINE_IID"' '"$STATUS_MESSAGE"' - '"$CI_PROJECT_PATH_SLUG"'",
-			"url": "'"$CI_PIPELINE_URL"'",
-			"icon_url": "https://gitlab.com/favicon.png"
-			},
-			"title": "'"$COMMIT_SUBJECT"'",
-			"url": "'"$URL"'",
-			"description": "'"${COMMIT_MESSAGE//$'\n'/ }"\\n\\n"$CREDITS"'",
-			"fields": [
-        {
-          "name": "Commit",
-          "value": "'"[\`$CI_COMMIT_SHORT_SHA\`]($CI_PROJECT_URL/commit/$CI_COMMIT_SHA)"'",
-          "inline": true
-        },
-        {
-          "name": "Branch",
-          "value": "'"[\`$CI_COMMIT_REF_NAME\`]($CI_PROJECT_URL/tree/$CI_COMMIT_REF_NAME)"'",
-          "inline": true
-        },
-        {
-          "name": "Artifacts",
-          "value": "'"[\`$CI_JOB_ID\`]($ARTIFACT_URL)"'",
-          "inline": true
-        }
-			],
       "image": {
-        "url": "'$AVATAR'"
-      },
-			"timestamp": "'"$TIMESTAMP"'"
+        "url": "https://i.imgur.com/ZGPxFN2.jpg"
+      }
 		} ]
 	}'
 fi
