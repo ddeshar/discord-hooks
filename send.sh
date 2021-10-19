@@ -5,7 +5,8 @@ case $1 in
     EMBED_COLOR=3066993
     STATUS_MESSAGE="Passed"
     ARTIFACT_URL="$CI_JOB_URL/artifacts/download"
-    AVATAR="https://raw.githubusercontent.com/ddeshar/discord-hooks/main/image/success.gif"    
+    AVATAR="https://raw.githubusercontent.com/ddeshar/discord-hooks/main/image/success.gif"
+    MESSAGE_NOTIFY
     ;;
 
   "failure" )
@@ -25,7 +26,7 @@ esac
 shift
 
 if [ $# -lt 1 ]; then
-  echo -e "WARNING!!\nYou need to pass the WEBHOOK_URL environment variable as the second argument to this script.\nFor details & guide, visit: https://github.com/DiscordHooks/gitlab-ci-discord-webhook" && exit
+  echo -e "WARNING!!\nYou need to pass the WEBHOOK_URL environment variable as the second argument to this script.\nFor details & guide, visit: https://birdie0.github.io/discord-webhooks-guide/discord_webhook.html" && exit
 fi
 
 AUTHOR_NAME="$(git log -1 "$CI_COMMIT_SHA" --pretty="%aN")"
@@ -52,7 +53,7 @@ TIMESTAMP=$(date --utc +%FT%TZ)
 
 if [ -z $LINK_ARTIFACT ] || [ $LINK_ARTIFACT = false ] ; then
   WEBHOOK_DATA='{
-    "username":  "'"$USERNAMES"'",
+    "username":  "'$USERNAMES'",
     "avatar_url": "https://gitlab.com/favicon.png",
     "embeds": [ {
       "color": '$EMBED_COLOR',
@@ -76,9 +77,6 @@ if [ -z $LINK_ARTIFACT ] || [ $LINK_ARTIFACT = false ] ; then
           "inline": true
         }
         ],
-        "thumbnail": {
-          "url": "https://upload.wikimedia.org/wikipedia/commons/3/38/4-Nature-Wallpapers-2014-1_ukaavUI.jpg"
-        },
         "image": {
           "url": "'$AVATAR'"
         },
@@ -87,7 +85,7 @@ if [ -z $LINK_ARTIFACT ] || [ $LINK_ARTIFACT = false ] ; then
     }'
 else
 	WEBHOOK_DATA='{
-		"username": "'"$USERNAMES"'",
+		"username": "'$USERNAMES'",
 		"avatar_url": "https://gitlab.com/favicon.png",
 		"embeds": [ {
 			"color": '$EMBED_COLOR',
