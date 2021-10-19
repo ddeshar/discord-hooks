@@ -74,6 +74,9 @@ if [ -z $LINK_ARTIFACT ] || [ $LINK_ARTIFACT = false ] ; then
           "inline": true
         }
         ],
+        "image": {
+          "url": "'$AVATAR'"
+        },
         "timestamp": "'"$TIMESTAMP"'"
       } ]
     }'
