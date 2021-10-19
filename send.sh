@@ -50,7 +50,7 @@ TIMESTAMP=$(date --utc +%FT%TZ)
 
 if [ -z $LINK_ARTIFACT ] || [ $LINK_ARTIFACT = false ] ; then
   WEBHOOK_DATA='{
-    "username": "",
+    "username":  "'"$CREDITS"'",
     "avatar_url": "https://gitlab.com/favicon.png",
     "embeds": [ {
       "color": '$EMBED_COLOR',
