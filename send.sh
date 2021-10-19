@@ -36,8 +36,10 @@ COMMIT_MESSAGE="$(git log -1 "$CI_COMMIT_SHA" --pretty="%b")" | sed -E ':a;N;$!b
 
 if [ "$AUTHOR_NAME" == "$COMMITTER_NAME" ]; then
   CREDITS="$AUTHOR_NAME authored & committed"
+  USERNAMES = "PIPELINE OF $AUTHOR_NAME"
 else
   CREDITS="$AUTHOR_NAME authored & $COMMITTER_NAME committed"
+  USERNAMES = "PIPELINE OF $AUTHOR_NAME"
 fi
 
 if [ -z $CI_MERGE_REQUEST_ID ]; then
@@ -50,103 +52,76 @@ TIMESTAMP=$(date --utc +%FT%TZ)
 
 if [ -z $LINK_ARTIFACT ] || [ $LINK_ARTIFACT = false ] ; then
   WEBHOOK_DATA='{
-  "username": "Webhook",
-  "avatar_url": "https://i.imgur.com/4M34hi2.png",
-  "content": "Text message. Up to 2000 characters.",
-  "embeds": [
-    {
+    "username":  "'"$USERNAMES"'",
+    "avatar_url": "https://gitlab.com/favicon.png",
+    "embeds": [ {
+      "color": '$EMBED_COLOR',
       "author": {
-        "name": "Birdie♫",
-        "url": "https://www.reddit.com/r/cats/",
-        "icon_url": "https://i.imgur.com/R66g1Pe.jpg"
+        "name": "Pipeline #'"$CI_PIPELINE_IID"' '"$STATUS_MESSAGE"' - '"$CI_PROJECT_PATH_SLUG"'",
+        "url": "'"$CI_PIPELINE_URL"'",
+        "icon_url": "https://gitlab.com/favicon.png"
       },
-      "title": "Title",
-      "url": "https://google.com/",
-      "description": "Text message. You can use Markdown here. *Italic* **bold** __underline__ ~~strikeout~~ [hyperlink](https://google.com) `code`",
-      "color": 15258703,
+      "title": "'"$COMMIT_SUBJECT"'",
+      "url": "'"$URL"'",
+      "description": "'"${COMMIT_MESSAGE//$'\n'/ }"\\n\\n"$CREDITS"'",
       "fields": [
         {
-          "name": "Text",
-          "value": "More text",
+          "name": "Commit",
+          "value": "'"[\`$CI_COMMIT_SHORT_SHA\`]($CI_PROJECT_URL/commit/$CI_COMMIT_SHA)"'",
           "inline": true
         },
         {
-          "name": "Even more text",
-          "value": "Yup",
+          "name": "Branch",
+          "value": "'"[\`$CI_COMMIT_REF_NAME\`]($CI_PROJECT_URL/tree/$CI_COMMIT_REF_NAME)"'",
           "inline": true
-        },
-        {
-          "name": "Use `\"inline\": true` parameter, if you want to display fields in the same line.",
-          "value": "okay..."
-        },
-        {
-          "name": "Thanks!",
-          "value": "You're welcome :wink:"
         }
-      ],
-      "thumbnail": {
-        "url": "https://upload.wikimedia.org/wikipedia/commons/3/38/4-Nature-Wallpapers-2014-1_ukaavUI.jpg"
-      },
-      "image": {
-        "url": "https://upload.wikimedia.org/wikipedia/commons/5/5a/A_picture_from_China_every_day_108.jpg"
-      },
-      "footer": {
-        "text": "Woah! So cool! :smirk:",
-        "icon_url": "https://i.imgur.com/fKL31aD.jpg"
-      }
-    }
-  ]
-}
-'
+        ],
+        "thumbnail": {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/3/38/4-Nature-Wallpapers-2014-1_ukaavUI.jpg"
+        },
+        "image": {
+          "url": "'$AVATAR'"
+        },
+        "timestamp": "'"$TIMESTAMP"'"
+      } ]
+    }'
 else
 	WEBHOOK_DATA='{
-  "username": "Webhook",
-  "avatar_url": "https://i.imgur.com/4M34hi2.png",
-  "content": "Text message. Up to 2000 characters.",
-  "embeds": [
-    {
-      "author": {
-        "name": "Birdie♫",
-        "url": "https://www.reddit.com/r/cats/",
-        "icon_url": "https://i.imgur.com/R66g1Pe.jpg"
-      },
-      "title": "Title",
-      "url": "https://google.com/",
-      "description": "Text message. You can use Markdown here. *Italic* **bold** __underline__ ~~strikeout~~ [hyperlink](https://google.com) `code`",
-      "color": 15258703,
-      "fields": [
+		"username": "'"$USERNAMES"'",
+		"avatar_url": "https://gitlab.com/favicon.png",
+		"embeds": [ {
+			"color": '$EMBED_COLOR',
+			"author": {
+			"name": "Pipeline #'"$CI_PIPELINE_IID"' '"$STATUS_MESSAGE"' - '"$CI_PROJECT_PATH_SLUG"'",
+			"url": "'"$CI_PIPELINE_URL"'",
+			"icon_url": "https://gitlab.com/favicon.png"
+			},
+			"title": "'"$COMMIT_SUBJECT"'",
+			"url": "'"$URL"'",
+			"description": "'"${COMMIT_MESSAGE//$'\n'/ }"\\n\\n"$CREDITS"'",
+			"fields": [
         {
-          "name": "Text",
-          "value": "More text",
+          "name": "Commit",
+          "value": "'"[\`$CI_COMMIT_SHORT_SHA\`]($CI_PROJECT_URL/commit/$CI_COMMIT_SHA)"'",
           "inline": true
         },
         {
-          "name": "Even more text",
-          "value": "Yup",
+          "name": "Branch",
+          "value": "'"[\`$CI_COMMIT_REF_NAME\`]($CI_PROJECT_URL/tree/$CI_COMMIT_REF_NAME)"'",
           "inline": true
         },
         {
-          "name": "Use `\"inline\": true` parameter, if you want to display fields in the same line.",
-          "value": "okay..."
-        },
-        {
-          "name": "Thanks!",
-          "value": "You're welcome :wink:"
+          "name": "Artifacts",
+          "value": "'"[\`$CI_JOB_ID\`]($ARTIFACT_URL)"'",
+          "inline": true
         }
-      ],
-      "thumbnail": {
-        "url": "https://upload.wikimedia.org/wikipedia/commons/3/38/4-Nature-Wallpapers-2014-1_ukaavUI.jpg"
-      },
+			],
       "image": {
-        "url": "https://upload.wikimedia.org/wikipedia/commons/5/5a/A_picture_from_China_every_day_108.jpg"
+        "url": "'$AVATAR'"
       },
-      "footer": {
-        "text": "Woah! So cool! :smirk:",
-        "icon_url": "https://i.imgur.com/fKL31aD.jpg"
-      }
-    }
-  ]
-}'
+			"timestamp": "'"$TIMESTAMP"'"
+		} ]
+	}'
 fi
 
 for ARG in "$@"; do
