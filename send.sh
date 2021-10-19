@@ -74,8 +74,11 @@ if [ -z $LINK_ARTIFACT ] || [ $LINK_ARTIFACT = false ] ; then
           "inline": true
         }
         ],
+        "thumbnail": {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/3/38/4-Nature-Wallpapers-2014-1_ukaavUI.jpg"
+        },
         "image": {
-          "url": "'$AVATAR'"
+          "url": "https://upload.wikimedia.org/wikipedia/commons/5/5a/A_picture_from_China_every_day_108.jpg"
         },
         "timestamp": "'"$TIMESTAMP"'"
       } ]
@@ -111,8 +114,11 @@ else
           "inline": true
         }
 			],
+      "thumbnail": {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/3/38/4-Nature-Wallpapers-2014-1_ukaavUI.jpg"
+      },
       "image": {
-        "url": "'$AVATAR'"
+        "url": "https://upload.wikimedia.org/wikipedia/commons/5/5a/A_picture_from_China_every_day_108.jpg"
       },
 			"timestamp": "'"$TIMESTAMP"'"
 		} ]
