@@ -108,7 +108,7 @@ else
           "inline": true
         }
 			],
-      "image" : "'$AVATAR'",
+      "image": {"url": "'$AVATAR'"}, 
 			"timestamp": "'"$TIMESTAMP"'"
 		} ]
 	}'
